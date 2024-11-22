@@ -86,3 +86,22 @@ Strumming is also a very whimsical motion, much like writing Rust code.
 [VariantArray]: https://docs.rs/strum_macros/latest/strum_macros/derive.VariantArray.html
 [VariantNames]: https://docs.rs/strum_macros/latest/strum_macros/derive.VariantNames.html
 [EnumTable]: https://docs.rs/strum_macros/latest/strum_macros/derive.EnumTable.html
+
+## Fork Information
+
+We're using a fork of `strum` from PR [#353](https://github.com/Peternator7/strum/pull/353) which adds the `const_into_str` feature. This feature enables const evaluation of enum-to-string conversions, allowing us to use enum string representations in const contexts.
+
+Example usage:
+```rust
+#[derive(IntoStaticStr)]
+#[strum(const_into_str)]
+enum Color {
+    Red,
+    Blue,
+    #[strum(serialize = "dark_green")]
+    Green,
+}
+
+// Can be used in const contexts
+const RED_STR: &'static str = Color::Red.into_str();  // "Red"
+const GREEN_STR: &'static str = Color::Green.into_str();  // "dark_green"
